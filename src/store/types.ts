@@ -1,0 +1,1 @@
+export type locationType = { lat: number, lng: number }
