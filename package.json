@@ -12,7 +12,7 @@
     "sass": "^1.48.0",
     "vant": "^3.4.2",
     "vue": "^3.2.25",
-    "vue-advanced-chat": "https://github.com/ByteAutomation/vue-advanced-chat.git",
+    "vue-advanced-chat": "https://github.com/ByteAutomation/vue-advanced-chat.git#next",
     "vue-router": "4"
   },
   "devDependencies": {

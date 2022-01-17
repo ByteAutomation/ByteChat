@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import logo from '/@/assets/logo.png'
-// import * as memory from '/@/store/memory'
-// import functions from '/@/store/functions'
+import * as memory from '/@/store/memory'
+import functions from '/@/store/functions'
 import { reactive } from 'vue';
 
 const dict = reactive({
@@ -25,6 +25,7 @@ const dict = reactive({
                 <van-button
                     size="small"
                     color="linear-gradient(to right, #ff6034, #ee0a24)"
+                    @click="functions.pages.switchPage(memory.PageIdentity.chatPage)"
                 >GET IN !</van-button>
             </van-row>
         </div>

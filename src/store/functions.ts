@@ -1,9 +1,10 @@
-import { PageIdentity, globalDict, SexIdentity } from "/@/store/memory"
+import { PageIdentity, globalDict } from "/@/store/memory"
 
 import { router } from "/@/store/router"
 import * as types from "/@/store/types"
 
 import { Dialog } from "vant"
+import { ValueOf } from "element-plus/es/components/table/src/table-column/defaults"
 
 const functions = {
     basic: {
@@ -50,7 +51,7 @@ const functions = {
         },
     },
     pages: {
-        switchPage: (page: string) => {
+        switchPage: (page: typeof PageIdentity[keyof typeof PageIdentity]) => {
             globalDict.pageSelected = page
             router.push(page)
         }
