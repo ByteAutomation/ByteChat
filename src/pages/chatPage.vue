@@ -3,7 +3,7 @@ import * as memory from '/@/store/memory'
 import functions from '/@/store/functions'
 import { onMounted, reactive, ref, unref } from 'vue';
 
-import ChatWindow from 'vue-advanced-chat'
+import ChatWindow, { Message, Room } from 'vue-advanced-chat'
 import 'vue-advanced-chat/dist/vue-advanced-chat.css'
 
 const dict = reactive({
@@ -51,7 +51,7 @@ const dict = reactive({
                 ],
                 typingUsers: [4321]
             }
-        ],
+        ] as Room[],
         messages: [
             {
                 _id: 7890,
@@ -70,8 +70,6 @@ const dict = reactive({
                 failure: true,
                 disableActions: false,
                 disableReactions: false,
-                files: [
-                ],
                 reactions: {
                     '😁': [
                         1234, // USER_ID
@@ -81,18 +79,19 @@ const dict = reactive({
                         1234
                     ]
                 },
-                replyMessage: {
-                    content: 'Reply Message',
-                    senderId: 4321,
-                    files: [
-                    ]
-                },
+                // replyMessage: {
+                //     _id: 22,
+                //     content: 'Reply Message',
+                //     senderId: 4321,
+                //     date: '13 November',
+                //     timestamp: '10:20',
+                // },
             }
-        ],
+        ] as Message[],
         currentUserId: 1234
     },
     functions: {
-        sendMessage: async ({ content, roomId, files, replyMessage }) => {
+        sendMessage: async ({ content, roomId, files, replyMessage }: any) => {
             const message = {
                 _id: roomId,
                 content: content,
@@ -122,6 +121,7 @@ const dict = reactive({
                     username: 'yingshaoxo',
                     avatar: '/logo.png',
                     distributed: true,
+                    date: '13 November',
                     timestamp: new Date().toTimeString().split(' ')[0].split(':').slice(0, 2).join(':'),
                 }]
             }, 1000)
@@ -141,6 +141,7 @@ onMounted(async () => {
     <div class="bigBackground">
         <div class="container">
             <chat-window
+                height="100vh"
                 :current-user-id="dict.data.currentUserId"
                 :rooms="dict.data.rooms"
                 :messages="dict.data.messages"
