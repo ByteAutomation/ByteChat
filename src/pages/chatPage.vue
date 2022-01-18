@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as memory from '/@/store/memory'
 import functions from '/@/store/functions'
-import { onMounted, reactive, ref, unref } from 'vue';
+import { onActivated, onMounted, reactive, ref, unref, watch } from 'vue';
 
 import ChatWindow, { Message, Room } from 'vue-advanced-chat'
 import 'vue-advanced-chat/dist/vue-advanced-chat.css'
@@ -15,12 +15,12 @@ const dict = reactive({
         rooms: [
             {
                 roomId: 1,
-                roomName: 'Room 1',
+                roomName: 'Chat Room',
                 avatar: '/logo.png',
                 unreadCount: 4,
                 index: 3,
                 lastMessage: {
-                    content: 'Last message received',
+                    content: 'You got new messages',
                     senderId: 1234,
                     username: 'John Doe',
                     timestamp: '10:20',
@@ -31,72 +31,64 @@ const dict = reactive({
                 },
                 users: [
                     {
-                        _id: 1234,
-                        username: 'John Doe',
+                        _id: 1,
+                        username: 'Target',
                         avatar: '/logo.png',
                         status: {
-                            state: 'online',
+                            state: 'offline',
                             lastChanged: 'today, 14:30'
                         }
                     },
                     {
-                        _id: 4321,
-                        username: 'John Snow',
+                        _id: 2,
+                        username: 'yingshaoxo',
                         avatar: '/logo.png',
                         status: {
-                            state: 'offline',
+                            state: 'online',
                             lastChanged: '14 July, 20:00'
                         }
                     }
                 ],
-                typingUsers: [4321]
+                typingUsers: []
             }
         ] as Room[],
         messages: [
             {
-                _id: 7890,
-                indexId: 12092,
-                content: 'Message 1',
-                senderId: 1234,
-                username: 'John Doe',
+                _id: 1, //message id
+                indexId: 1,
+                content: 'Hi there!',
+                senderId: 2,
+                username: 'yingshaoxo',
                 avatar: '/logo.png',
                 date: '13 November',
                 timestamp: '10:20',
-                system: false,
+                system: true,
                 saved: true,
                 distributed: true,
                 seen: true,
                 deleted: false,
-                failure: true,
-                disableActions: false,
-                disableReactions: false,
-                reactions: {
-                    '😁': [
-                        1234, // USER_ID
-                        4321
-                    ],
-                    '🥰': [
-                        1234
-                    ]
-                },
-                // replyMessage: {
-                //     _id: 22,
-                //     content: 'Reply Message',
-                //     senderId: 4321,
-                //     date: '13 November',
-                //     timestamp: '10:20',
-                // },
+                failure: false,
+                disableActions: true,
+                disableReactions: true,
             }
         ] as Message[],
-        currentUserId: 1234
+        currentUserId: 2
     },
     functions: {
+        fetchMessages: ({ room, options }: any) => {
+            dict.tempData.messageLoaded = false
+
+            // use timeout to imitate async server fetched data
+            setTimeout(() => {
+                dict.tempData.messageLoaded = true
+            }, 500)
+        },
         sendMessage: async ({ content, roomId, files, replyMessage }: any) => {
             const message = {
                 _id: roomId,
                 content: content,
-                senderId: 1234,
-                username: 'John Doe',
+                senderId: dict.data.currentUserId,
+                username: 'yingshaoxo',
                 avatar: '/logo.png',
                 date: '13 November',
                 timestamp: '10:20',
@@ -106,8 +98,8 @@ const dict = reactive({
                 seen: true,
                 deleted: false,
                 failure: false,
-                disableActions: false,
-                disableReactions: false,
+                disableActions: true,
+                disableReactions: true,
                 files: [
                 ],
             }
@@ -116,9 +108,9 @@ const dict = reactive({
             setTimeout(() => {
                 dict.data.messages = [...dict.data.messages, {
                     _id: roomId,
-                    content: "hi you",
-                    senderId: 4321,
-                    username: 'yingshaoxo',
+                    content: "Hi, You!",
+                    senderId: 1,
+                    username: 'Target',
                     avatar: '/logo.png',
                     distributed: true,
                     date: '13 November',
@@ -163,6 +155,7 @@ onMounted(async () => {
                     }
                 }"
                 @send-message="dict.functions.sendMessage"
+                @fetch-messages="dict.functions.fetchMessages"
             />
         </div>
     </div>
@@ -254,5 +247,15 @@ onMounted(async () => {
         rgba(255, 0, 144, 1) 100%
     );
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#ff0090",GradientType=1);
+}
+
+.vac-info-wrapper {
+    text-align: start;
+}
+
+.vac-message-card {
+    .vac-format-message-wrapper {
+        text-align: start;
+    }
 }
 </style>
