@@ -25,7 +25,7 @@ const dict = reactive({
                 <van-button
                     size="small"
                     color="linear-gradient(to right, #ff6034, #ee0a24)"
-                    @click="functions.pages.switchPage(memory.PageIdentity.chatPage)"
+                    @click="functions.pages.switchPage(memory.PageIdentity.registerOrLoginPage)"
                 >GET IN !</van-button>
             </van-row>
         </div>

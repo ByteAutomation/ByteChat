@@ -4,7 +4,6 @@ import { router } from "/@/store/router"
 import * as types from "/@/store/types"
 
 import { Dialog } from "vant"
-import { ValueOf } from "element-plus/es/components/table/src/table-column/defaults"
 
 const functions = {
     basic: {
